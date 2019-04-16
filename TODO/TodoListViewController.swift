@@ -10,9 +10,14 @@ import UIKit
 
 class TodoListViewController: UITableViewController{
 
+    let defaults = UserDefaults.standard
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        if let items = defaults.array(forKey: "ToDoListArray") as? [String]{
+            itemArray = items
+        }
     }
 var itemArray = ["购买水杯","吃药","修改密码"]
     
@@ -48,8 +53,8 @@ var itemArray = ["购买水杯","吃药","修改密码"]
         let action = UIAlertAction(title: "添加新项目", style: .default){(action) in
             //用户单击j添加项目按钮以后要执行的代码
             self.itemArray.append(textField.text!)
+            self.defaults.set(self.itemArray, forKey: "ToDoListArray")
             self.tableView.reloadData()
-            print(textField.text!)
         }
         alert.addTextField{(alertTextField) in
             alertTextField.placeholder = "创建一个项目..."
