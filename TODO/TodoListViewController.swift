@@ -14,7 +14,7 @@ class TodoListViewController: UITableViewController{
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-let itemArray = ["购买水杯","吃药","修改密码"]
+var itemArray = ["购买水杯","吃药","修改密码"]
     
     //MARK: - Table View DataSource methods
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -37,6 +37,29 @@ let itemArray = ["购买水杯","吃药","修改密码"]
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    //MARK: - Add New Items
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        //声明一个新的变量，生存期在方法的内部
+        var textField = UITextField()
+        
+    let alert = UIAlertController(title: "添加一个新的todo项目", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "添加新项目", style: .default){(action) in
+            //用户单击j添加项目按钮以后要执行的代码
+            self.itemArray.append(textField.text!)
+            self.tableView.reloadData()
+            print(textField.text!)
+        }
+        alert.addTextField{(alertTextField) in
+            alertTextField.placeholder = "创建一个项目..."
+            //让textField指向alertTextField，因为出了闭包，alerttextfield不存在
+            textField = alertTextField
+        }
+        
+        alert.addAction(action)
+        present(alert,animated: true,completion: nil)
+        
     }
 }
 
